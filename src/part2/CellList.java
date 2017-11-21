@@ -15,22 +15,14 @@ public class CellList {
 	
 	// copy constructor
 	public CellList(CellList cl) {
-		setHead(cl.getHead());
-		setSize(cl.getSize());
+		head = cl.head;
+		size = cl.size;
 	}
 	
-	// getters and setters
-	public CellNode getHead() {
-		return head;
-	}
-	public int getSize() {
+	// no getters and setters
+	// I added size, because most lists do that.
+	public int size() {
 		return size;
-	}
-	public void setHead(CellNode cn) {
-		head = cn;
-	}
-	public void setSize(int s) {
-		size = s;
 	}
 	
 	public void addToStart(CellPhone cp) {
@@ -61,12 +53,12 @@ public class CellList {
 		if (i < 0 || i >= size) {
 			throw new NoSuchElementException();
 		}else {
-			CellNode cur = head;
-			for (int k = 0; k < i; k++) {
+			CellNode cur = head; // get to the node before the one at index i
+			for (int k = 0; k < i-1; k++) {
 				cur = cur.cellNode;
 			}
-			CellNode newCN = new CellNode(cp, cur.getCellNode());
-			cur.cellNode = newCN;
+			CellNode cn = new CellNode(cp, cur.cellNode);
+			cur.cellNode = cn;
 			size++;
 		}
 	}
@@ -75,12 +67,12 @@ public class CellList {
 		if (i < 0 || i > size) {
 			throw new NoSuchElementException();
 		}else {
-			CellNode cur = head;
-			for (int k = 0; k < i; k++) {
-				cur = cur.getCellNode();
+			CellNode cur = head; // get to the node before index i
+			for (int k = 0; k < i-1; k++) {
+				cur = cur.cellNode;
 			}
-			CellNode next = cur.getCellNode().getCellNode();
-			cur.setCellNode(next);
+			CellNode next = cur.cellNode.cellNode; 
+			cur.cellNode = next; // set this node to the one 2 further
 			size--;
 		}
 	}
@@ -91,18 +83,21 @@ public class CellList {
 		}else {
 			CellNode cur = head;
 			for (int k = 0; k < i; k++) {
-				cur = cur.getCellNode();
+				cur = cur.cellNode;
 			}
-			cur.setCellPhone(cp);
+			cur.cellPhone = cp;
 		}
 	}
 	
-	public CellNode find(long sn) {
+	// what do they exactly want?
+	// I now return a CellPhone instead of CellNode
+	// There is no use in returning CellNodes, because they are private.
+	public CellPhone find(long sn) {
 		CellNode cur = head;
 		while (cur.cellNode != null) {
 			cur = cur.cellNode;
 			if (cur.cellPhone.getSerialNum() == sn) {
-				return cur;
+				return cur.cellPhone;
 			}
 		}
 		return null;
@@ -120,13 +115,13 @@ public class CellList {
 	}
 	
 	public void showContents() {
-		System.out.println("The current size of the list is " + size + ". Here are the contents of the list\n" 
+		System.out.println("The current size of the list is " + size + ". Here are the contents of the list:\n" 
 				+ "=====================================================================");
 		CellNode cur = head;
 		int i = 1;
 		while (cur != null) {
 			System.out.println(i++ + ". " + cur.cellPhone.toString());
-			cur = cur.getCellNode();
+			cur = cur.cellNode;
 		}
 	}
 	
@@ -148,6 +143,10 @@ public class CellList {
 		}
 	}
 	
+	// a private inner class is made here,
+	// because we only use the class for the CellList.
+	// Because of this, the class is better protected,
+	// because apart from CellList class, nobody can access it.
 	private class CellNode {
 		
 		private CellPhone cellPhone;
@@ -164,9 +163,10 @@ public class CellList {
 		}
 		
 		// copy constructor
+		// do we need accessors and mutators for this?
 		private CellNode(CellNode cn) {
-			setCellPhone(cn.getCellPhone());
-			setCellNode(cn.getCellNode());
+			cellPhone = cn.cellPhone;
+			cellNode = cn.cellNode;
 		}
 		
 		// clone
@@ -174,21 +174,5 @@ public class CellList {
 			CellNode newCN = new CellNode(cn);
 			return newCN;
 		}
-		
-		// getters and setters
-		private CellPhone getCellPhone() {
-			return cellPhone;
-		}
-		private CellNode getCellNode() {
-			return cellNode;
-		}
-		private void setCellPhone(CellPhone cp) {
-			cellPhone = cp;
-		}
-		private void setCellNode(CellNode cn) {
-			cellNode = cn;
-		}
-		
-		
 	}
 }

@@ -14,7 +14,10 @@ public class Word {
 	public Word(String word, int freq) {
 		this.wordString=word;
 		this.Freq=freq;
-		StW=false;
+		if(Freq>=10&&wordString.length()<=4)
+			StW=true;
+		else 
+			StW=false;
 	}
 
 	public String getWordString() {
@@ -37,13 +40,15 @@ public class Word {
 		return StW;
 	}
 
-	public void setStW(Word b) {
+	/*public void setStW(Word b) {
 		if (Freq>=10 && wordString.length()<=4) {
 			b.StW=true;
 		}
 		else
 			b.StW=false;
-	}
+	}*/
 	  
-	
+	public String toString() {
+		return "\nWordstring: "+wordString+"\nFrequency: "+Freq+"\n---------------";
+	}
 }

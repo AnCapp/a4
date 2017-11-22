@@ -19,6 +19,14 @@ public class CellList {
 		size = cl.size;
 	}
 	
+	// copy
+	public Object clone(CellList cl) {
+		CellList newCL = new CellList();
+		// halfway done
+		return cl;
+		
+	}
+	
 	// no getters and setters
 	// I added size, because most lists do that.
 	public int size() {
@@ -165,13 +173,13 @@ public class CellList {
 		// copy constructor
 		// do we need accessors and mutators for this?
 		private CellNode(CellNode cn) {
-			cellPhone = cn.cellPhone;
-			cellNode = cn.cellNode;
+			new CellNode(cn.cellPhone, cn.cellNode);
 		}
 		
 		// clone
 		private Object clone(CellNode cn) {
-			CellNode newCN = new CellNode(cn);
+			CellPhone newCP = (CellPhone) cn.cellPhone.clone(cn.cellPhone.getSerialNum());
+			CellNode newCN = new CellNode(newCP, cn.cellNode);
 			return newCN;
 		}
 	}

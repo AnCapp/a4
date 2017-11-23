@@ -3,21 +3,32 @@ package part1;
 public class Word {
 	private String wordString;
 	private int Freq;
+	private int Rank;
 	private boolean StW;
 	
 	public Word() {
 		wordString=null;
 		Freq=0;
+		Rank=0;
 		StW=false;
 	}
 	
 	public Word(String word, int freq) {
 		this.wordString=word;
 		this.Freq=freq;
-		if(Freq>=10&&wordString.length()<=4)
-			StW=true;
-		else 
-			StW=false;
+		this.Rank=0;
+		StW=false;
+	}
+	public Word(Word w) {
+		this.wordString=w.wordString;
+		this.Freq=w.getFreq();
+		this.Rank=w.getRank();
+		this.StW=w.isStW();
+	}
+
+	public Word clone() {
+		return new Word(this);
+		
 	}
 
 	public String getWordString() {
@@ -34,21 +45,26 @@ public class Word {
 
 	public void setFreq(int freq) {
 		Freq = freq;
+		if(Freq>=10&&wordString.length()<=4)
+			StW=true;
+		else 
+			StW=false;
+	}
+	
+	public void setRank(int rank) {
+		Rank = rank;
+	}
+	
+	public int getRank() {
+		return Rank;
 	}
 
 	public boolean isStW() {
-		return StW;
+		return StW; 
 	}
 
-	/*public void setStW(Word b) {
-		if (Freq>=10 && wordString.length()<=4) {
-			b.StW=true;
-		}
-		else
-			b.StW=false;
-	}*/
 	  
 	public String toString() {
-		return "\nWordstring: "+wordString+"\nFrequency: "+Freq+"\n---------------";
+		return "\n   "+Rank+"          "+Freq+"            "+wordString;
 	}
 }

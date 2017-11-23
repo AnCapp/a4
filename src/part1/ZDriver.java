@@ -20,7 +20,7 @@ public class ZDriver {
 	
 	
 	
-	public static String countWords(String inputFile) throws IOException {
+	public static int countWords(String inputFile) throws IOException {
 		FileInputStream input = null;
 		try {
 			input = new FileInputStream(inputFile);
@@ -30,37 +30,20 @@ public class ZDriver {
 		InputStreamReader inp = new InputStreamReader(input);
 		Scanner br = new Scanner(inp);
 		int count = 0;
+		Pattern pattern = Pattern.compile("[a-zA-Z]*");
 		while (br.hasNext()) { 
-			Pattern pattern = Pattern.compile("[a-zA-Z]*");
 			String tmp=br.next().toLowerCase();
 			Matcher matcher = pattern.matcher(tmp);
-			
 		    if (!matcher.matches()) {
-		           System.out.println("string '"+tmp + "' contains special character");
+		       continue;
+		       //System.out.println("string '"+tmp + "' contains special character");
 		    } else {
 		           count++;
 		    }
 			
-			/*String tmp=br.next().toLowerCase();
-			//System.out.println(tmp);
-			
-			if (tmp.find("[()-’.,!?]")) {
-				System.out.println("1"+tmp);
-				tmp=tmp.replaceAll("[\\p{P}\\p{S}]", "");
-			}
-			if (tmp.matches(".*[0-9]")) {
-				System.out.println("2"+tmp);
-				tmp=tmp.replaceAll("[0-9]", "");	
-			}
-			if (tmp.matches(".*[a-zA-Z]")  ) {
-				System.out.println("3"+tmp);
-				//System.out.println("1");
-				count++;
-			}*/
-			
 		}
 		br.close();
-		return "Number of word tokens: "+count;
+		return count;
 	}
 	
 	public static void MovetoArray(String inputFile,ArrayList<Word> WArr) {
@@ -73,7 +56,6 @@ public class ZDriver {
 		InputStreamReader inp = new InputStreamReader(input);
 		Scanner br = new Scanner(inp);
 		int count=0;
-		//ArrayList<String> SArr=new ArrayList<>();
 		while(br.hasNext()) {
 			Pattern pattern = Pattern.compile("[a-zA-Z]*");
 			String tmp=br.next().toLowerCase();
@@ -81,7 +63,6 @@ public class ZDriver {
 			if (!matcher.matches()) {
 				continue;
 			}
-			//tmp=tmp.replaceAll("[^a-zA-Z]", "");
 			else {
 				tmp.toLowerCase();
 				WArr.add(new Word());
@@ -92,7 +73,6 @@ public class ZDriver {
 			}
 			count++;
 		}
-		//int freq=0;
 		for (int i=0;i<WArr.size();i++) {
 			for (int j=0;j<WArr.size();j++) {
 				if (i==j)
@@ -105,7 +85,7 @@ public class ZDriver {
 		}
 		
 		
-	}//Rank not setting properly
+	}
 	public static void Sort(ArrayList<Word> WArr) {
 		Word tmp=new Word();
 		for(int i=0;i<WArr.size();i++) {
@@ -113,30 +93,49 @@ public class ZDriver {
 				if (WArr.get(i).getFreq()>(WArr.get(j).getFreq())) {
 					tmp=WArr.get(i).clone();
 					WArr.get(i).setFreq(WArr.get(j).getFreq());
-					WArr.get(i).setRank(WArr.get(j).getRank());
 					WArr.get(i).setWordString(WArr.get(j).getWordString());
 					WArr.get(j).setFreq(tmp.getFreq());
-					WArr.get(j).setRank(tmp.getRank());
 					WArr.get(j).setWordString(tmp.getWordString());
 					tmp=null;
 				}
 			}
 		}
+		for (int i=0;i<WArr.size();i++) {
+			WArr.get(i).setRank(WArr.indexOf(WArr.get(i))+1);
+		}
+	}
+	public static int numHappax(ArrayList<Word> WArr) {
+		int count=0;
+		for(int i=0;i<WArr.size();i++) {
+			if(!WArr.get(i).isStW()) {
+				count++;
+			}
+			else
+				continue;
+		}
+		
+		return count;
+	}
+	public static int numStopWords(ArrayList<Word> WArr) {
+		int count=0;
+		for(int i=0;i<WArr.size();i++) {
+			if(WArr.get(i).isStW()) {
+				count++;
+			}
+			else
+				continue;
+		}
+		
+		return count;
 	}
 	
-	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		try {
-			System.out.println(countWords("jokes.txt"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			
-		}
+		System.out.println("Enter the file to be scanned: ");
+		Scanner kb=new Scanner(System.in);// TODO Auto-generated method stub
+		String file=kb.nextLine();
+		
 		ArrayList<Word> WArr=new ArrayList<>();
-		MovetoArray("jokes.txt",WArr);
+		MovetoArray(file,WArr);
 		System.out.println("-------------------------------------");
 		System.out.printf("%5s%15s%10s","Rank","Frequency ","Word" );
 		System.out.println("\n-------------------------------------");
@@ -144,6 +143,22 @@ public class ZDriver {
 		for(int i=0;i<WArr.size();i++) {
 			System.out.println(WArr.get(i));
 		}
+		int numwords=0;
+		try {
+			numwords=countWords(file);
+			System.out.println("Number of word tokens: "+countWords(file));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			
+		}
+		double phappax=(double)numHappax(WArr)/(double)numwords;
+		System.out.println("number of word types: "+WArr.size());
+		System.out.printf("\nnum hap %d \nPercentage of Happax: %.2f%% \nHappax Account for: %.2f%% \n",numHappax(WArr),((double)numHappax(WArr)/(double)numwords)*100,((double)numHappax(WArr)/(double)WArr.size())*100);
+		//System.out.printf("%.2d","\nnumber of Happax:"+numHappax(WArr)+
+				//"\nPercentage of Happax:"+phappax+"%\nHappax Account for: "+numHappax(WArr)/WArr.size()+"%");
+		System.out.printf("\nnum Stop Words: %d \nPercentage of Stop Words: %.2f%% \nStop Words Account for: %.2f%%",numStopWords(WArr),((double)numStopWords(WArr)/(double)numwords)*100,((double)numStopWords(WArr)/(double)WArr.size())*100);
 	}
 
 }

@@ -58,13 +58,13 @@ public class ZDriver {
 		int count=0;
 		while(br.hasNext()) {
 			Pattern pattern = Pattern.compile("[a-zA-Z]*");
-			String tmp=br.next().toLowerCase();
+			String tmp=br.next();
 			Matcher matcher = pattern.matcher(tmp);
 			if (!matcher.matches()) {
 				continue;
 			}
 			else {
-				tmp.toLowerCase();
+				//tmp.toLowerCase();
 				WArr.add(new Word());
 				WArr.get(count).setWordString(tmp);
 				WArr.get(count).setFreq(1);
@@ -82,10 +82,10 @@ public class ZDriver {
 					WArr.remove(WArr.get(j));
 				}
 			}
-		}
-		
-		
+		}		
 	}
+	
+	
 	public static void Sort(ArrayList<Word> WArr) {
 		Word tmp=new Word();
 		for(int i=0;i<WArr.size();i++) {
@@ -146,7 +146,7 @@ public class ZDriver {
 		int numwords=0;
 		try {
 			numwords=countWords(file);
-			System.out.println("Number of word tokens: "+countWords(file));
+			System.out.println("\nNumber of word tokens: "+countWords(file));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

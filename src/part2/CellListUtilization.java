@@ -51,8 +51,8 @@ public class CellListUtilization {
 		cellList2.showContents();
 		
 		// TO DO: DUPLICATION		
-/*		System.out.println("\nDuplicate cellList1:");
-		CellList cellList3 = ;
+		System.out.println("\nDuplicate cellList1:");
+		CellList cellList3 = cellList1.clone();
 		cellList3.showContents();
 		
 		System.out.println("\nCheck if it is equal to cellList1:");
@@ -60,12 +60,16 @@ public class CellListUtilization {
 		
 		System.out.println("\nFind a CellPhone in cellList3 with Serial Number 8888902:");
 		CellPhone find = cellList3.find(8888902);
-		System.out.print(find.toString());
+		System.out.println(find.toString());
 		
 		System.out.println("\nChange its Serial Number to 1019130:");
 		find.setSerialNum(1019130);
+		
+		System.out.println("\n New cellList1:");
 		cellList1.showContents();
-		cellList3.showContents();*/
+		
+		System.out.println("\n New cellList3:");
+		cellList3.showContents();
 		
 	}
 	

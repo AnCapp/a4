@@ -20,10 +20,9 @@ public class CellList {
 	}
 	
 	// copy
-	public Object clone(CellList cl) {
-		CellList newCL = new CellList();
-		// halfway done
-		return cl;
+	public CellList clone() {
+		CellList newCL = new CellList(this);
+		return newCL;
 		
 	}
 	
@@ -123,7 +122,7 @@ public class CellList {
 	}
 	
 	public void showContents() {
-		System.out.println("The current size of the list is " + size + ". Here are the contents of the list:\n" 
+		System.out.println("The current size of list " + size + ". Here are the contents of the list:\n" 
 				+ "=====================================================================");
 		CellNode cur = head;
 		int i = 1;
@@ -177,9 +176,8 @@ public class CellList {
 		}
 		
 		// clone
-		private Object clone(CellNode cn) {
-			CellPhone newCP = (CellPhone) cn.cellPhone.clone(cn.cellPhone.getSerialNum());
-			CellNode newCN = new CellNode(newCP, cn.cellNode);
+		private CellNode nodeClone() {
+			CellNode newCN = new CellNode(this);
 			return newCN;
 		}
 	}

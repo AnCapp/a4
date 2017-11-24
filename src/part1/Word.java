@@ -27,8 +27,7 @@ public class Word {
 	}
 
 	public Word clone() {
-		return new Word(this);
-		
+		return new Word(this);	
 	}
 
 	public String getWordString() {

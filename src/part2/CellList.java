@@ -2,7 +2,7 @@ package part2;
 
 import java.util.NoSuchElementException;
 
-public class CellList {
+public class CellList implements Cloneable {
 
 	private CellNode head;
 	private int size;
@@ -14,16 +14,18 @@ public class CellList {
 	}
 	
 	// copy constructor
-	public CellList(CellList cl) {
-		head = cl.head;
-		size = cl.size;
-	}
+	// no deep copy
+    public CellList(CellList cl) {
+    	head = cl.head;
+    	size = cl.size;
+    }
+
 	
 	// copy
+    // no deep copy
 	public CellList clone() {
-		CellList newCL = new CellList(this);
-		return newCL;
-		
+    	CellList newList = new CellList(this);
+		return newList;
 	}
 	
 	// no getters and setters

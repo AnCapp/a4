@@ -24,7 +24,7 @@ public class CellPhone {
 	}
 	
 	// clone
-	public Object clone(long sn) {
+	public CellPhone clone(long sn) {
 		CellPhone cp = new CellPhone(sn, brand, year, price);
 		return cp;
 	}

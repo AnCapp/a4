@@ -59,18 +59,25 @@ public class CellListUtilization {
 		System.out.println(cellList3.equals(cellList1));
 		
 		System.out.println("\nFind a CellPhone in cellList3 with Serial Number 8888902:");
-		CellPhone find = cellList3.find(8888902);
-		System.out.println(find.toString());
+		CellPhone found = cellList3.find(8888902);
 		
-		System.out.println("\nChange its Serial Number to 1019130:");
-		find.setSerialNum(1019130);
+		System.out.println("\nThe found CellPhone:");		
+		System.out.println(found.toString());
 		
-		System.out.println("\n New cellList1:");
-		cellList1.showContents();
+		System.out.println("\nChange its Serial Number to 1111111 (found.setSerialNum(1111111)):");
+		found.setSerialNum(1111111);
 		
-		System.out.println("\n New cellList3:");
+		System.out.println("\nSince Serial Number does not matter, cellList1 and 3 should still be the same:");
+		System.out.println(cellList3.equals(cellList1));
+		
+		System.out.println("\nNow delete in cellList3 at index 10:");
+		cellList3.deleteAtIndex(10);
+		
+		System.out.println("\nNew cellList3:");
 		cellList3.showContents();
 		
+		System.out.println("\nCheck if cellList 3 is still equal to cellList1:");
+		System.out.println(cellList3.equals(cellList1));
 	}
 	
 }
